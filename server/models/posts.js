@@ -4,7 +4,7 @@ const postSchema = mongoose.Schema({
     title: {
         type: String, required: true,
     },
-    content: {
+      content: { 
         type: String, required: true,
     },
     publish: {
@@ -15,8 +15,7 @@ const postSchema = mongoose.Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Comment'  // get us to get full fields of List
-        }
-    ]
+        }]
 }, { timestamps: true })
 
 module.exports = mongoose.model('Post', postSchema);

@@ -11,8 +11,11 @@ exports.getAllPost = async function (req, res) {
 
 exports.getPost = async function (req, res) {
     try {
-        const post = await Post.findById(req.params.postId);
-        res.status(200).json(post);
+         await Post.findOne({ _id: req.params.postId })
+            .populate('comments')
+             .then(function(Post) {
+                res.json(Post);
+        })
     } catch (err) {
         res.status(500).json({ message: err });
     }
