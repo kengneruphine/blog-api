@@ -2,7 +2,7 @@ const router = require('express').Router();
 const User = require('../models/users');
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
-const { registerValidation, loginValidation } = require('../validation') 
+const { registerValidation, loginValidation } = require('../validation')
 
 exports.registerUser = async function (req, res) {
     //validating the data received before creating a new user
@@ -25,7 +25,7 @@ exports.registerUser = async function (req, res) {
     });
     try {
         const savedUser = await user.save();
-        res.send({ user: user._id }); //returning only the user id
+        res.send({ savedUser }); //returning only the user id
     } catch (err) {
         res.status(400).send(err);
     }
