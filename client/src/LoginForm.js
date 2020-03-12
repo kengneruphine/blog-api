@@ -20,7 +20,7 @@ class LoginForm extends Component{
         console.log(this.state);
         axios.post('http://localhost:4000/api/user/login', this.state)
             .then(response => {
-                localStorage.setItem('login', JSON.stringify({ token: response.token }));
+                localStorage.setItem('loginToken', JSON.stringify({ token: response.data }));
                 this.props.history.push("/Post");
                 this.setState(this.state)
             })
@@ -28,7 +28,6 @@ class LoginForm extends Component{
                 alert(error);
         })
     };
-    
     render() {
         const mystyle = {
             width: "50%",
@@ -39,9 +38,9 @@ class LoginForm extends Component{
 
         return (
             <form onSubmit={this.submitHandler} style={mystyle}>
-                <label for="username">Username</label>
+                <label htmlFor="username">Username</label>
                 <input type="text" name="username" value={username} onChange={this.changeHandler} />
-                <lable for="password">Password</lable>
+                <label htmlFor="password">Password</label>
                 <input type="password" name="password" value={password} onChange={this.changeHandler} />
                 <button value="submit">Login</button>
             </form>

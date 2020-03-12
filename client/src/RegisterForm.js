@@ -41,11 +41,11 @@ class RegisterForm extends Component{
         return (
             <div style={mystyle}><h3>Create an account</h3>
             <form onSubmit={this.submitHandler}>
-                <label for="username">Username</label>
+                <label htmlFor="username">Username</label>
                 <input type="text" name="username" value={username} onChange={this.changeHandler} />
-                <label for="email">Email</label>
+                <label htmlFor="email">Email</label>
                 <input type="text" name="email" value={email} onChange={this.changeHandler} />
-                <label for="password">Password</label>
+                <label htmlFor="password">Password</label>
                 <input type="password" name="password" value={password} onChange={this.changeHandler} />
                 <button value="submit">Register</button>
                 </form>

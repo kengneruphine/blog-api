@@ -5,10 +5,24 @@ class PostForm extends Component{
     constructor(props) {
         super(props)
 
-        this.state = {
+        this.initialState ={ 
             title: '',
             content: '',
-            checked: false   // it is the same as publish variable
+            publish: false,  // it is the same as publish variable
+            store : ''
+        }
+
+        this.state = this.initialState;
+    }
+
+    componentDidMount() {
+        this.storeCollector()
+    }
+
+    storeCollector() {
+        let store = JSON.parse(localStorage.getItem('loginToken'));
+        if (store) {
+            this.setState({ store:store})
         }
     }
 
@@ -17,22 +31,26 @@ class PostForm extends Component{
     }
 
     handleCheckClick = () => {
-        this.setState({ checked: !this.state.checked });
+        this.setState({ publish: !this.state.publish });
       }
-    // submitHandler = e => {
-    //     e.preventDefault()
-    //     console.log(this.state)
-    //     axios.post('http://localhost:4000/api/user/register', this.state)
-    //         .then(response => {
-    //          //console.log(response)
-    //             this.props.history.push('/Login');
-    //             this.setState(this.state)
-    //         })
-    //         .catch(error => {
-    //             alert(error);
-    //             //console.log(error);
-    //     })
-    // }
+      submitHandler = e => {
+        e.preventDefault()
+          let token = this.state.store.token;
+          console.log("token is",token);
+          axios.post('http://localhost:4000/api/posts', this.state, {
+              headers: {
+                  'Content-Type': 'application/json',
+                  'auth-token': `${token}`
+              }
+          })
+              .then(response => {
+                this.setState(this.initialState)
+            })
+            .catch(error => {
+                alert(error);
+                //console.log(error);
+        })
+    }
     render() {
         const mystyle = {
             width: "50%",
@@ -40,16 +58,16 @@ class PostForm extends Component{
             marginTop: "2%"
         }
 
-        const { title, content, checked } = this.state;
+        const { title, content, publish } = this.state;
 
         return (
             <div style={mystyle}><h5>Submit a Post</h5>
             <form onSubmit={this.submitHandler}>
                 <label htmlFor="username">Title</label>
                 <input type="text" name="title" value={title} onChange={this.changeHandler} />
-                <label htmlFor="email">Content</label>
+                <label htmlFor="content">Content</label>
                 <textarea  name="content" value={content} onChange={this.changeHandler} />
-                    <input type="checkbox" value={checked} onChange={this.handleCheckClick} className="filled-in" id="filled-in-box" /> &emsp;Publish
+                    <input type="checkbox" value={publish} onChange={this.handleCheckClick} className="filled-in" id="filled-in-box" /> &emsp;Publish
                     <br />
                     <br />
                 <button value="submit">Submit</button>
